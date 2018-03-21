@@ -6,3 +6,5 @@
   - zabbix
   tags:
   - monitoring
+
+  # TODO add centos7 compatibility

@@ -1,0 +1,7 @@
+---
+ubuntu16:
+  mysql_packages: ['mysql-server', 'python-mysqldb']
+
+mysql_db_name: zabbix
+mysql_db_user: "{{ vault_mysql_db_user }}"
+mysql_db_password: "{{ vault_mysql_db_password }}"

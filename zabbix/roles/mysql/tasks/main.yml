@@ -1,7 +1,9 @@
 ---
-- name: Install "{{ mysql_packages }}" packages
-  package:
-    name: "{{ mysql_packages }}"
+- name: Install "{{ ubuntu16.mysql_packages }}" packages
+  apt:
+    name: "{{ ubuntu16.mysql_packages }}"
+    update_cache: yes
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '16'
 
 # - name: Configure my.cnf
 #   copy: src=.roles/mysql/files/my.cnf

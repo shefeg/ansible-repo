@@ -1,4 +1,6 @@
 ---
-- name: Install "{{ zabbix_pre_packages }}" packages
-  package:
-    name: "{{ zabbix_pre_packages }}"
+- name: Install "{{ ubuntu16.zabbix_pre_packages }}" packages
+  apt:
+    name: "{{ ubuntu16.zabbix_pre_packages }}"
+    update_cache: yes
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '16'
