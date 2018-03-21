@@ -1,0 +1,6 @@
+---
+- name: Update repositories cache and install "{{ zabbix_pre_packages }}" packages
+  become: true
+  apt:
+    name: "{{ zabbix_pre_packages }}"
+    update_cache: yes

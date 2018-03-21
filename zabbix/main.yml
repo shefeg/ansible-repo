@@ -1,0 +1,7 @@
+---
+- hosts: monitoring
+  roles:
+  - mysql
+  # - zabbix
+  tags:
+  - monitoring

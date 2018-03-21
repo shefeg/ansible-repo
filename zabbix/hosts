@@ -1,0 +1,5 @@
+[monitoring:children]
+zabbix
+
+[zabbix]
+10.130.75.67

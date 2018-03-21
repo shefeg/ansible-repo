@@ -1,0 +1,29 @@
+---
+- name: Update repositories cache and install "{{ mysql_packages }}" packages
+  become: true
+  apt:
+    name: "{{ mysql_packages }}"
+    update_cache: yes
+
+- name: Configure my.cnf
+  become: true
+  copy: src=./roles/mysql/files/my.cnf
+        dest=/etc/mysql/my.cnf
+        owner=root
+        group=root
+        mode=0640
+  notify:
+    - restart mysql
+
+- name: Create database "{{ mysql_db_name }}"
+  become: true
+  mysql_db:
+    name: "{{ mysql_db_name }}"
+
+- name: Add mysql-user
+  become: true
+  mysql_user: name="{{ mysql_db_user }}"
+              password="{{ mysql_db_password }}"
+              priv=*.*:ALL
+  notify:
+    - start mysql
