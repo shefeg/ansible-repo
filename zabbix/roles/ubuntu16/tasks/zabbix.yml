@@ -1,5 +1,0 @@
----
-- name: Install "{{ zabbix_pre_packages }}" packages
-  become: true
-  package:
-    name: "{{ zabbix_pre_packages }}"

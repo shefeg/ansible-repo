@@ -1,9 +1,0 @@
----
-mysql_packages: ['mysql-server', 'python-mysqldb']
-mysql_db_name: zabbix
-mysql_db_user: "{{ vault_mysql_db_user }}"
-mysql_db_password: "{{ vault_mysql_db_password }}"
-
-zabbix_pre_packages: ['php7.0-xml', 'php7.0-bcmath', 'php7.0-mbstring']
-zabbix_repo: http://repo.zabbix.com/zabbix/3.2/ubuntu/pool/main/z/zabbix-release/zabbix-release_3.2-1+xenial_all.deb
-zabbix_packages: ['zabbix-server-mysql', 'zabbix-frontend-php', 'zabbix-agent']
