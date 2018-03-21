@@ -2,10 +2,6 @@
 - hosts: monitoring
   roles:
   # - mysql
-<<<<<<< HEAD
   - zabbix
-=======
-  - ubuntu16
->>>>>>> 2a1fc56e3054d16c7db2a048afbb528292ab3e74
   tags:
   - monitoring
