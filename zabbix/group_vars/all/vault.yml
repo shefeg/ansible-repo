@@ -1,5 +1,6 @@
 ---
 vault_ansible_user: vagrant
 vault_ansible_ssh_pass: vagrant
+
 vault_mysql_db_user: zabbixuser
 vault_mysql_db_password: Drowssap1!
