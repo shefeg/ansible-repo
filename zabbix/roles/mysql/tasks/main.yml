@@ -1,26 +1,22 @@
 ---
 - name: Install "{{ mysql_packages }}" packages
-  become: true
   package:
     name: "{{ mysql_packages }}"
 
-- name: Configure my.cnf
-  become: true
-  copy: src=./files/my.cnf
-        dest=/etc/mysql/my.cnf
-        owner=root
-        group=root
-        mode=0640
-  notify:
-    - restart mysql
+# - name: Configure my.cnf
+#   copy: src=.roles/mysql/files/my.cnf
+#         dest=/etc/mysql/my.cnf
+#         owner=root
+#         group=root
+#         mode=0640
+#   notify:
+#     - restart mysql
 
 - name: Create database "{{ mysql_db_name }}"
-  become: true
   mysql_db:
     name: "{{ mysql_db_name }}"
 
 - name: Add mysql-user
-  become: true
   mysql_user: name="{{ mysql_db_user }}"
               password="{{ mysql_db_password }}"
               priv=*.*:ALL
