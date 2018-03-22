@@ -4,7 +4,8 @@
 
 - name: Set up the schema and import the data into the zabbix database
   shell: zcat /usr/share/doc/zabbix-server-mysql/create.sql.gz | mysql -u "{{ mysql_db_user }}" -p"{{ mysql_db_password }}" "{{ mysql_db_name }}"
-  ignore_errors: yes
+  register: zcat_result
+  failed_when: 'zcat_result|failed and "already exists" not in zcat_result.stderr'
 
 - name: Set db password in zabbix_server.conf
   replace:
