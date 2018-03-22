@@ -1,9 +1,6 @@
 ---
-- name: Install "{{ ubuntu16.mysql_packages }}" packages
-  apt:
-    name: "{{ ubuntu16.mysql_packages }}"
-    update_cache: yes
-  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '16'
+- name: Install OS specific packages
+  include_tasks: "{{ ansible_os_family }}.yml"
 
 # - name: Configure my.cnf
 #   copy: src=.roles/mysql/files/my.cnf
@@ -12,7 +9,7 @@
 #         group=root
 #         mode=0640
 #   notify:
-#     - restart mysql
+#     - restart "{{ mysql_service }}"
 
 - name: Create database "{{ mysql_db_name }}"
   mysql_db:
@@ -23,4 +20,4 @@
               password="{{ mysql_db_password }}"
               priv=*.*:ALL
   notify:
-    - start mysql
+    - start "{{ mysql_service }}"

@@ -1,0 +1,11 @@
+---
+mysql_packages: ['mysql-server', 'python-mysqldb']
+mysql_service: mysql
+
+zabbix_pre_packages: ['php7.0-xml', 'php7.0-bcmath', 'php7.0-mbstring']
+zabbix_repo: http://repo.zabbix.com/zabbix/3.2/ubuntu/pool/main/z/zabbix-release/zabbix-release_3.2-1+xenial_all.deb
+zabbix_packages: ['zabbix-server-mysql', 'zabbix-frontend-php', 'zabbix-agent']
+
+apache_service: apache2
+apache_user: www-data
+zabbix_service: zabbix-server

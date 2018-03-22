@@ -1,8 +1,9 @@
-- name: start mysql
-  service: name=mysql
+- name: start "{{ mysql_service }}"
+  service: name="{{ mysql_service }}"
            enabled=yes
            state=started
-- name: restart mysql
-  service: name=mysql
+           
+- name: restart "{{ mysql_service }}"
+  service: name="{{ mysql_service }}"
            enabled=yes
-           state=restarted
+           state=restart

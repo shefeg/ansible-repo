@@ -1,0 +1,5 @@
+---
+- name: Install "{{ mysql_packages }}" packages
+  apt:
+    name: "{{ mysql_packages }}"
+    update_cache: yes

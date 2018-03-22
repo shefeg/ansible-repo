@@ -1,0 +1,14 @@
+- name: start apache
+  service: name="{{ apache_service }}"
+           enabled=yes
+           state=started
+
+- name: reload apache
+  service: name="{{ apache_service }}"
+           enabled=yes
+           state=reloaded
+
+- name: start zabbix-server
+  service: name="{{ zabbix_service }}"
+           enabled=yes
+           state=started

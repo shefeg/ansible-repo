@@ -1,0 +1,17 @@
+---
+- name: Install "{{ zabbix_pre_packages }}" packages
+  apt:
+    name: "{{ zabbix_pre_packages }}"
+    update_cache: yes
+
+- name: Install Zabbix installation package
+  apt:
+    deb: "{{ zabbix_repo }}"
+
+- name: Install "{{ zabbix_packages }}" packages
+  apt:
+    name: "{{ zabbix_packages }}"
+    update_cache: yes
+
+
+    
