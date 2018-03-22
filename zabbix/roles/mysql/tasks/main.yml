@@ -17,7 +17,7 @@
 - name: Add mysql-user
   mysql_user: name="{{ mysql_db_user }}"
               password="{{ mysql_db_password }}"
-              priv="{{ mysql_db_name }}.*:ALL,GRANT"
+              priv="{{ mysql_db_name }}.*:ALL"
 
 - name: Start mysql server
   service:
