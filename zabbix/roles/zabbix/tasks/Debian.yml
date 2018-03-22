@@ -7,6 +7,10 @@
 - name: Install Zabbix installation package
   apt:
     deb: "{{ zabbix_repo }}"
+  register: result
+  until: result|succeeded
+  retries: 5
+  delay: 3
 
 - name: Install "{{ zabbix_packages }}" packages
   apt:
