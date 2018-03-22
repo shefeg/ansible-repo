@@ -5,7 +5,7 @@ ansible_user: "{{ vault_ansible_user }}"
 ansible_ssh_pass: "{{ vault_ansible_ssh_pass }}"
 
 mysql_db_host: localhost
-mysql_db_name: zabbix
+mysql_db_name: zabbixdb
 mysql_db_user: "{{ vault_mysql_db_user }}"
 mysql_db_password: "{{ vault_mysql_db_password }}"
 

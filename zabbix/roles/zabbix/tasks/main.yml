@@ -1,33 +1,41 @@
 ---
-- name: Install OS specific packages
-  include_tasks: "{{ ansible_os_family }}.yml"
+- include_tasks: "{{ ansible_os_family }}.yml"
 
 - name: Set up the schema and import the data into the zabbix database
   shell: zcat /usr/share/doc/zabbix-server-mysql/create.sql.gz | mysql -u "{{ mysql_db_user }}" -p"{{ mysql_db_password }}" "{{ mysql_db_name }}"
   register: zcat_result
   failed_when: 'zcat_result|failed and "already exists" not in zcat_result.stderr'
 
-- name: Set db password in zabbix_server.conf
+- name: Set DBPassword in zabbix_server.conf
   replace:
     path: /etc/zabbix/zabbix_server.conf
     regexp: '^# DBPassword='
     replace: "DBPassword={{ mysql_db_password }}"
     backup: yes
 
+- name: Set DBUser in zabbix_server.conf
+  replace:
+    path: /etc/zabbix/zabbix_server.conf
+    regexp: '^DBUser=.*'
+    replace: "DBUser={{ mysql_db_user }}"
+    backup: yes
+  notify:
+    - reload apache
+
+- name: Set DBName in apache.conf for Zabbix
+  replace:
+    path: /etc/zabbix/zabbix_server.conf
+    regexp: '^DBName=.*'
+    replace: "DBName={{ mysql_db_name }}"
+    backup: yes
+  notify:
+    - reload apache
+
 - name: Set timezone in apache.conf for Zabbix
   replace:
     path: /etc/zabbix/apache.conf
     regexp: '(^\s*)# php_value date.timezone.*/.*'
     replace: '\1php_value date.timezone Europe/Kiev'
-    backup: yes
-  notify:
-    - reload apache
-
-- name: Set DBUser in apache.conf for Zabbix
-  replace:
-    path: /etc/zabbix/zabbix_server.conf
-    regexp: '^DBUser=.*'
-    replace: "DBUser={{ mysql_db_user }}"
     backup: yes
   notify:
     - reload apache

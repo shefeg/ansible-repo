@@ -1,6 +1,5 @@
 ---
-- name: Install OS specific packages
-  include_tasks: "{{ ansible_os_family }}.yml"
+- include_tasks: "{{ ansible_os_family }}.yml"
 
 # - name: Configure my.cnf
 #   copy: src=.roles/mysql/files/my.cnf
@@ -18,6 +17,10 @@
 - name: Add mysql-user
   mysql_user: name="{{ mysql_db_user }}"
               password="{{ mysql_db_password }}"
-              priv=*.*:ALL
-  notify:
-    - start "{{ mysql_service }}"
+              priv="{{ mysql_db_name }}.*:ALL,GRANT"
+
+- name: Start mysql server
+  service:
+    name: "{{ mysql_service }}"
+    enabled: yes
+    state: started
