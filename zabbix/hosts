@@ -1,5 +1,9 @@
 [monitoring:children]
 zabbix
+zabbix-agent
 
 [zabbix]
 10.130.75.22
+
+[zabbix-agent]
+10.130.75.30

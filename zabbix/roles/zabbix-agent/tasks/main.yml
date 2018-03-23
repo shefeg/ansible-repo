@@ -1,0 +1,25 @@
+---
+- include_tasks: "{{ ansible_os_family }}.yml"
+
+- stat: path=/etc/zabbix/zabbix_agentd.psk
+  register: psk_file_result
+
+- name: Generate a PSK
+  shell: openssl rand -hex 32 > /etc/zabbix/zabbix_agentd.psk
+  when: psk_file_result.stat.exists == False 
+
+- name: Configure zabbix_agentd.conf
+  template:
+    src: templates/zabbix_agentd.conf.j2
+    dest: /etc/zabbix/zabbix_agentd.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart zabbix-agent
+
+- name: Start zabbix-agent
+  service:
+    name: "{{ zabbix_agent }}"
+    enabled: yes
+    state: started

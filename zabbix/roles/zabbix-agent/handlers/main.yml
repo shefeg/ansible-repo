@@ -1,0 +1,9 @@
+- name: start zabbix-agent
+  service: name="{{ zabbix_agent }}"
+           enabled=yes
+           state=started
+
+- name: restart zabbix-agent
+  service: name="{{ zabbix_agent }}"
+           enabled=yes
+           state=restarted

@@ -1,10 +1,19 @@
 ---
-- hosts: monitoring
+- hosts: zabbix
   become: true
   vars_files:
     - [ "group_vars/all/{{ ansible_os_family }}.yml", "group_vars/all/os_defaults.yml" ]
   roles:
   - mysql
   - zabbix
+  tags:
+  - monitoring
+
+- hosts: zabbix-agent
+  become: true
+  vars_files:
+    - [ "group_vars/all/{{ ansible_os_family }}.yml", "group_vars/all/os_defaults.yml" ]
+  roles:
+  - zabbix-agent
   tags:
   - monitoring

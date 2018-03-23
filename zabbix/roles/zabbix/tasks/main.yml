@@ -6,39 +6,23 @@
   register: zcat_result
   failed_when: 'zcat_result|failed and "already exists" not in zcat_result.stderr'
 
-- name: Set DBPassword in zabbix_server.conf
-  replace:
-    path: /etc/zabbix/zabbix_server.conf
-    regexp: '^# DBPassword='
-    replace: "DBPassword={{ mysql_db_password }}"
-    backup: yes
+- name: Configure zabbix_server.conf
+  template:
+    src: templates/zabbix_server.conf.j2
+    dest: /etc/zabbix/zabbix_server.conf
+    owner: root
+    group: root
+    mode: 0644
+  register: zabbix_server_conf_result
 
-- name: Set DBUser in zabbix_server.conf
-  replace:
-    path: /etc/zabbix/zabbix_server.conf
-    regexp: '^DBUser=.*'
-    replace: "DBUser={{ mysql_db_user }}"
-    backup: yes
-  notify:
-    - reload apache
-
-- name: Set DBName in apache.conf for Zabbix
-  replace:
-    path: /etc/zabbix/zabbix_server.conf
-    regexp: '^DBName=.*'
-    replace: "DBName={{ mysql_db_name }}"
-    backup: yes
-  notify:
-    - reload apache
-
-- name: Set timezone in apache.conf for Zabbix
+- name: Set timezone in apache.conf
   replace:
     path: /etc/zabbix/apache.conf
     regexp: '(^\s*)# php_value date.timezone.*/.*'
     replace: '\1php_value date.timezone Europe/Kiev'
     backup: yes
   notify:
-    - reload apache
+    - restart apache
 
 - name: Configure zabbix.conf.php
   template:
@@ -47,9 +31,19 @@
     owner: "{{ apache_user }}"
     group: "{{ apache_user }}"
     mode: 0644
+  register: zabbix_conf_php_result
 
-- name: Start zabbix server
+- name: Restart zabbix server
   service:
     name: "{{ zabbix_service }}"
     enabled: yes
-    state: started
+    state: restarted
+  when: zabbix_server_conf_result.changed or zabbix_conf_php_result.changed
+
+- name: Check if zabbix-server listens to port
+  shell: netstat -tulpan | grep 10051
+  register: listen_result
+  failed_when: listen_result.rc != 0
+
+- debug:
+    msg: "{{ listen_result.stdout }}"

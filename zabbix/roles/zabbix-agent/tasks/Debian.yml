@@ -1,0 +1,16 @@
+---
+- name: Install repository configuration package
+  apt:
+    deb: "{{ zabbix_repo }}"
+  register: result
+  until: result|succeeded
+  retries: 5
+  delay: 3
+
+- name: Install "{{ zabbix_agent }}" packages
+  apt:
+    name: "{{ zabbix_packages }}"
+    update_cache: yes
+
+
+    
