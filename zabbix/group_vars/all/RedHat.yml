@@ -1,2 +1,21 @@
 ---
+mysql_packages: ['mysql-community-server', 'mysql-community-client', 'python-mysqldb']
+mysql_service: mysqld
+
+yum_repo_name: ['epel', 'remi-safe', 'remi-php72']
+yum_repo_description: ['Extra Packages for Enterprise Linux 7 - $basearch',
+                       'Safe Remi\'s RPM repository for Enterprise Linux $releasever - $basearch',
+                       'Remi\'s PHP 7.2RPM repository for Enterprise Linux 7 – $basearch']
+yum_repo_baseurl: ['http://download.fedoraproject.org/pub/epel/7/$basearch/',
+                   'http://rpms.remirepo.net/enterprise/7/safe/$basearch/',
+                   'http://rpms.remirepo.net/enterprise/7/php72/$basearch/']
+
+zabbix_pre_packages: ['php', 'php-mysql', 'php-gd', 'php-pear', 'httpd', 'libselinux-python']
+zabbix_repo: http://repo.zabbix.com/zabbix/3.2/ubuntu/pool/main/z/zabbix-release/zabbix-release_3.2-1+xenial_all.deb
+zabbix_packages: ['zabbix-server-mysql', 'zabbix-web-mysql', 'zabbix-java-gateway', 'zabbix-agent']
+zabbix_agent: zabbix-agent
+
+apache_service: httpd
+apache_user: apache
+zabbix_service: zabbix-server
 zabbix_agent: zabbix-agent

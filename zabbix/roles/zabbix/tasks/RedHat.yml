@@ -1,0 +1,21 @@
+---
+- name: Add "{{ item[0] }}" repositories
+  yum_repository:
+    name: "{{ item[0] }}"
+    description: "{{ item[1] }}"
+    baseurl: "{{ item[2] }}"
+    gpgcheck: no
+    enabled: yes
+  with_nested:
+    - "{{ yum_repo_name }}"
+    - "{{ yum_repo_description }}"
+    - "{{ yum_repo_baseurl }}"
+
+- name: Install Zabbix installation package
+  apt:
+    deb: "{{ zabbix_repo }}"
+  register: result
+  until: result|succeeded
+  retries: 5
+  delay: 3
+
